@@ -1,53 +1,71 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import NavBar from '../sections/NavBar';
-import '../style/home.css';
-
-interface SpotifyData {
-  id: string;
-  name: string;
-  [key: string]: any;
-}
-
+import React, { useEffect } from "react";
+import NavBar from "../sections/NavBar";
+import "../style/home.css";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
+import { getTracks } from "../slices/tracksSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCirclePlus,faEllipsis } from "@fortawesome/free-solid-svg-icons";
 const Home = () => {
-  const [data, setData] = useState<SpotifyData[]>([]);
+  const tracks = useSelector((state: RootState) => state.tracks.tracks);
+  const status = useSelector((state: RootState) => state.tracks.status);
+  const dispatch = useDispatch<AppDispatch>();
+  const filters=["all","artists","albums","paylists","podcasts","episodes"]
+  useEffect(() => {
+    dispatch(getTracks("rolling"));
+  }, [dispatch]);
 
   useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      try {
-        const token = 'BQDsmL-SaZ-SShJXe7Zo9STIjWwXAVGL1aY0bFbX6FtV8n1toSx_3-LLyg-5Obt3qnhGRoXn3i-1fUn_Kk59BPK65SPtnXz3fjYi0nUahrWccM-6FU2mxc1ppLMEwwoz1UE2f7wyCL0'; // Replace with a valid token
-        console.log('Using token:', token);
-
-        const response = await axios.get('https://api.spotify.com/v1/users/391c0e1fbcad446d819738b243186417/playLists', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        console.log('API Response:', response.data);
-
-        setData(response.data.items || []); // Adjust based on actual response structure
-      } catch (error:any) {
-        console.error('Error fetching data:', error.response?.data || error.message);
-      }
-    };
-
-    fetchData();
-  }, []);
+    if (status === "succeeded") {
+      console.log(tracks);
+    }
+  }, [status, tracks]);
 
   return (
     <>
       <NavBar />
       <div className="home-container">
-        {data.length > 0 ? (
-          data.map((item) => (
-            <div key={item.id} className="home-section">
-              {item.name}
+        <div className="home-section"></div>
+
+        <div className="home-section">
+          <div className="genres">
+            {filters.map((filter) => (
+              <div key={filter} className="genre">
+                {filter}
+              </div>
+            ))
+
+            }
+          </div>
+          <div className="search-look">
+            <div className="home-section-title">top result</div>
+            <div className="home-section-content">
+              {tracks.map((track) => (
+                <div key={track._id} className="track-card">
+                  <div className="track-card-image">
+                    <img src={track.images} alt={track.name} />
+                  </div>
+                  <div className="track-card-info">
+                    <div className="card-text">
+                      <div className="names">
+                      <div className="track-card-name">{track.name}</div>
+                      <div className="track-card-artist">adele</div>
+                      </div>
+                      <FontAwesomeIcon className="plus-icon" icon={faCirclePlus} />
+                      {`${Math.floor(track.duration_ms / 60000)}:${Math.floor(
+                        (track.duration_ms % 60000) / 1000
+                      )
+                        .toString()
+                        .padStart(2, "0")}`}
+                        <FontAwesomeIcon className="card-menu-icon" size="xs" icon={faEllipsis} />  
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))
-        ) : (
-          <p>Loading...</p>
-        )}
+          </div>
+        </div>
+        <div className="home-section"></div>
       </div>
     </>
   );
