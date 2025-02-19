@@ -1,0 +1,17 @@
+
+.home-section{
+    background-color: #121212 ;
+    height: 600px;
+    border-radius: 5px;
+}
+.home-container {  
+    display: grid;
+    grid-template-columns: 0.75fr 1.5fr 0.75fr;
+    grid-template-rows: 1fr;
+    gap: 0px 12px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      ". . .";
+      padding: 4px 5px;
+  }
+  
