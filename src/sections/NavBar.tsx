@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
@@ -8,8 +8,13 @@ import { faSpotify } from "@fortawesome/free-brands-svg-icons";
 import { faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faFolderOpen, faCircleDown, faBell } from "@fortawesome/free-regular-svg-icons";
 import "../style/navBar.css";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { setSearch } from "../slices/searchSlice";
 
 function NavBar() {
+  const searchState = useSelector((state: RootState) => state.search.search);
+const dispatch = useDispatch();
   return (
     <Navbar collapseOnSelect expand="lg" data-bs-theme="dark" className="p-2 mainNav" style={{ background: "#111111" }}>
       <Container fluid>
@@ -43,6 +48,10 @@ function NavBar() {
                   outline: "none",
                   margin: "0 10px"
                 }}
+                
+                
+                value={searchState}
+                onChange={(e) => dispatch(setSearch(e.target.value))}
               />
               <div className="searchbar-right">
               <FontAwesomeIcon icon={faFolderOpen} color="white" size="lg" />

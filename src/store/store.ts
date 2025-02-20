@@ -1,11 +1,15 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { combineReducers } from "redux";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import tracksReducer from "../slices/tracksSlice";
-export const store=configureStore({
-    reducer:{
-        tracks:tracksReducer
-    }
-})
+import searchReducer from "../slices/searchSlice";
 
-export type AppDispatch=typeof store.dispatch
-export type RootState=ReturnType<typeof store.getState>
+const rootReducer = combineReducers({
+    tracks: tracksReducer,
+    search: searchReducer
+});
+
+export const store = configureStore({
+    reducer: rootReducer
+});
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;

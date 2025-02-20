@@ -6,7 +6,7 @@
 }
 .home-container {
   display: grid;
-  grid-template-columns: 0.75fr 1.5fr 0.75fr;
+  grid-template-columns: 0.55fr 1.7fr 0.55fr;
   grid-template-rows: 1fr;
   gap: 0px 12px;
   grid-auto-flow: row;
@@ -47,10 +47,12 @@
   text-transform: uppercase;
 }
 
-.home-section-title{
+.home-section-title,
+.songs-title{
 
   font-weight: 700;
-  font-size: 22px;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 }
 
 .track-card-image {
@@ -114,9 +116,39 @@ img {
   flex-direction: row;
   justify-content: space-between;
   align-items: start;
-  padding: 35px 30px;
+  padding: 35px 15px;
+  gap: 30px;
 }
 
 .search-look > div {
   width: 50%;
+}
+.top-result-image{
+  width: 92px;
+  height: 92px;
+}
+.topResult{
+  background-color:#181818 ;
+  padding: 15px;
+  border-radius: 4px;
+}
+.top-result-name{
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.top-result-name:hover{
+  text-decoration: underline;
+}
+
+.top-result-artist{
+opacity: 0.5;
+}
+.artist{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 5px;
+  text-transform: capitalize;
 }
